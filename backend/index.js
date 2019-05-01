@@ -12,11 +12,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/api/graph', function (req, res) {
-    console.log("Inside api call");
-    console.log(req.query);
     let start = parseInt(req.query.start);
     let windowSize = parseInt(req.query.windowSize);
-    console.log(data[0].total);
     let totalValues = data[0].total;
     if (windowSize + start > totalValues) {
         res.json(data[1].slice(start, totalValues))

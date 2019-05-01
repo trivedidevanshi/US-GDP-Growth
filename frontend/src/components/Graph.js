@@ -28,7 +28,6 @@ class Graph extends Component {
         }, this.drawChart)
     }
     clickNext = (e) => {
-        console.log("Inside next click");
         let inc_value = this.state.startValue;
         inc_value++;
         this.setState({
@@ -43,17 +42,15 @@ class Graph extends Component {
         })
 
         axios.defaults.withCredentials = true;
-        console.log("Inside Draw Chart", this.state.windowSizeValue);
         const data = {
             start: this.state.startValue,
             windowSize: this.state.windowSizeValue
         }
         axios.get(`http://localhost:3001/api/graph`, { params: data })
             .then(res => {
-                console.log("The response data length is : ", res.data.length);
                 for (let i = 0; i < res.data.length; i++) {
                     this.setState({
-                        data: [...this.state.data, (res.data[i].value / 100000000000).toFixed(2)],
+                        data: [...this.state.data, (res.data[i].value / 1000000000000).toFixed(2)],
                         date: [...this.state.date, parseInt(res.data[i].date)]
 
                     })
@@ -74,9 +71,6 @@ class Graph extends Component {
         let width = 800 / dataLen;
         let data = this.state.data;
         let dates = this.state.date;
-        console.log("Data before using in chart: ", data);
-        console.log("Date before using in chart: ", dates);
-        console.log("width", width);
 
         d3.select(this.node).select("svg").remove();
 
@@ -90,9 +84,9 @@ class Graph extends Component {
             .enter()
             .append("rect")
             .attr("x", (d, i) => i * (width + 5))
-            .attr("y", (d, i) => 300 - d)
+            .attr("y", (d, i) => 300 - d * 10)
             .attr("width", width)
-            .attr("height", (d, i) => d)
+            .attr("height", (d, i) => d * 10)
             .attr("fill", "green");
 
         svg.selectAll("text")
@@ -101,7 +95,7 @@ class Graph extends Component {
             .append("text")
             .text((d) => d)
             .attr("x", (d, i) => i * (width + 5))
-            .attr("y", (d, i) => 300 - d - 5)
+            .attr("y", (d, i) => 300 - d * 10 - 5)
             .attr("fill", "black");
 
     }
@@ -130,6 +124,7 @@ class Graph extends Component {
 
                         <div className="col-sm-10">
                             <div>
+                                <h5 style={{ "float": "right", "color": "blue" }}>Note: GDP Values are in trillion</h5>
                                 <h3>Years</h3>
                                 <h3>{this.state.date[0]} - {this.state.date[this.state.date.length - 1]}</h3>
                                 <div ref={(node) => this.node = node}></div><br></br>
