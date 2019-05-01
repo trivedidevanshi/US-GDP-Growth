@@ -3,10 +3,14 @@ A Node.js (backend) and React (frontend) based application to show the GDP growt
 
 ## Steps to Run the application locally
 
-* Open backend location in cmd
-	cmd-> npm install
-	cmd-> node index.js
+* Open backend location in command line and run the following:
 
-* Open frontend location in cmd
-	cmd-> npm install
-	cmd-> npm start 
+	npm install
+	
+	node index.js
+
+* Open frontend location in command line and run the following:
+
+	npm install
+	
+	npm start 
